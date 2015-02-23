@@ -1,19 +1,10 @@
-module Lift where
-
-data Session = Session { lift :: LiftName 
-                       , sets :: [Set] 
-                       } deriving (Show)
-
-type LiftName = String
-
-data Set = Set { weight :: Weight
-               , reps   :: Reps 
-               } deriving (Show)
-
-type Reps = Integer
+module Lift.Weight where
 
 data Weight = Wt Float Unit
-              deriving (Show, Eq)
+              deriving (Show, Eq, Read)
+
+data Unit = Lb | Kg
+            deriving (Show, Eq, Read)
 
 instance Num Weight where
     Wt x a + Wt y b | a == b    = Wt (x + y) a
@@ -30,18 +21,7 @@ instance Fractional Weight where
     Wt x a / Wt y b | a == b    = Wt (x / y) a
                     | otherwise = Wt x a / convert (Wt y b)
 
-data Unit = Lb | Kg
-            deriving (Show, Eq)
-
-predict1RM :: Weight -> Reps -> Weight
-predict1RM w r = w + w * fromInteger r * 0.0333
-
-sessionVolume :: Session -> Weight
-sessionVolume = foldl1 (+) . map volume . sets
-
-volume :: Set -> Weight
-volume (Set wt reps) = fromInteger (reps) * wt
-
 convert :: Weight -> Weight
 convert (Wt x Lb) = Wt (x/2.2046) Kg
 convert (Wt x Kg) = Wt (x*2.2046) Lb
+
