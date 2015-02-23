@@ -33,11 +33,14 @@ instance Fractional Weight where
 data Unit = Lb | Kg
             deriving (Show, Eq)
 
-volume :: Session -> Weight
-volume (Session _ sets) = Wt 250 Lb
-
 predict1RM :: Weight -> Reps -> Weight
 predict1RM w r = w + w * fromInteger r * 0.0333
+
+sessionVolume :: Session -> Weight
+sessionVolume = foldl1 (+) . map volume . sets
+
+volume :: Set -> Weight
+volume (Set wt reps) = fromInteger (reps) * wt
 
 convert :: Weight -> Weight
 convert (Wt x Lb) = Wt (x/2.2046) Kg
