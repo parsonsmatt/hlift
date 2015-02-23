@@ -1,6 +1,9 @@
 module Lift where
 
-data Session = Session LiftName [Set]
+data Session = Session { lift :: LiftName 
+                       , sets :: [Set] 
+                       } deriving (Show)
+
 type LiftName = String
 
 data Set = Set { weight :: Weight
