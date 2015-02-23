@@ -1,10 +1,8 @@
 module Lift where
 
+data Session = Session LiftName [Set]
 type LiftName = String
 
-data Session = Session LiftName [Set]
-
-type Reps = Integer
 
 data Set = Set { weight :: Weight
                , reps   :: Reps 
@@ -12,10 +10,6 @@ data Set = Set { weight :: Weight
 
 data Weight = Wt Float Unit
               deriving (Show, Eq)
-
-data Unit = Lb | Kg
-            deriving (Show, Eq)
-
 
 instance Num Weight where
     Wt x Lb + Wt y Lb     = Wt (x + y) Lb
@@ -25,6 +19,10 @@ instance Num Weight where
     signum (Wt x Lb)      = Wt (signum x) Lb
     fromInteger x         = Wt (fromInteger x) Lb
 
+data Unit = Lb | Kg
+            deriving (Show, Eq)
+
+type Reps = Integer
 
 volume :: Session -> Weight
 volume (Session _ sets) = Wt 250 Lb
