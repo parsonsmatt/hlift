@@ -37,8 +37,8 @@ volume :: Session -> Weight
 volume (Session _ sets) = Wt 250 Lb
 
 predict1RM :: Weight -> Reps -> Weight
-predict1RM w r = w + w * (fromInteger r) * 0.0333
+predict1RM w r = w + w * fromInteger r * 0.0333
 
 convert :: Weight -> Weight
-convert (Wt x Lb) = (Wt (x/2.2046) Kg)
-convert (Wt x Kg) = (Wt (x*2.2046) Lb)
+convert (Wt x Lb) = Wt (x/2.2046) Kg
+convert (Wt x Kg) = Wt (x*2.2046) Lb
